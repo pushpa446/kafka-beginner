@@ -9,11 +9,22 @@ import java.util.Properties;
 public class Application {
 
     public static void main(String[] args) {
-        Properties properties = new ProducerProperties("localhost:9092").getProperties();
+        String brokerUrl = "localhost:9092";
+
+        Properties properties = new ProducerProperties(brokerUrl).getProperties();
         Producer<String, String> producer = new KafkaProducer<>(properties);
-        ProducerRecord<String, String> record = new ProducerRecord<>("truck_location", "truck started");
-        producer.send(record, new ProducerCallback());
+        send(producer);
         producer.flush();
         producer.close();
+    }
+
+    private static void send(Producer<String, String> producer) {
+        String topic = "truck_location";
+        for (int i=0; i< 10; i ++){
+            String key = "vehicle_" + i%2;
+            String value = "at " + i + " km";
+            ProducerRecord<String, String> record = new ProducerRecord<>(topic, key, value);
+            producer.send(record, new ProducerCallback());
+        }
     }
 }
