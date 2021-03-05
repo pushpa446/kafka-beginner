@@ -12,7 +12,7 @@ public class Application {
         Properties properties = new ProducerProperties("localhost:9092").getProperties();
         Producer<String, String> producer = new KafkaProducer<>(properties);
         ProducerRecord<String, String> record = new ProducerRecord<>("truck_location", "truck started");
-        producer.send(record);
+        producer.send(record, new ProducerCallback());
         producer.flush();
         producer.close();
     }
