@@ -1,4 +1,4 @@
-package com.simple.kafka;
+package com.simple.kafka.producer;
 
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.RecordMetadata;
